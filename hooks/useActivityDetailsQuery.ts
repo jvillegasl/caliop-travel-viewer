@@ -1,28 +1,12 @@
-import { useCallback, useState } from "react";
-import { ActivityDetails, FetchStatus } from "@/types";
 import { getActivityDetails } from "@/actions/getActivityDetails";
+import { useQuery } from "react-query";
 
-export function useActivityDetailsQuery() {
-    const [activityDetails, setActivityDetails] =
-        useState<ActivityDetails | null>(null);
-    const [fetchStatus, setFetchStatus] = useState<FetchStatus | null>(null);
+export function useActivityDetailsQuery(visitId: number | null | undefined) {
+    const query = useQuery(
+        ["activityDetails", visitId],
+        () => getActivityDetails(visitId!),
+        { enabled: false },
+    );
 
-    const fetchActivityDetails = useCallback((visitId: number) => {
-        setFetchStatus({ status: "loading" });
-
-        getActivityDetails(visitId)
-            .then((data) => {
-                setFetchStatus({ status: "success" });
-                setActivityDetails(data);
-            })
-            .catch((error) => {
-                console.error(error);
-                setFetchStatus({
-                    status: "error",
-                    errorMessage: "An unexpected error ocurred",
-                });
-            });
-    }, []);
-
-    return { activityDetails, fetchStatus, fetchActivityDetails };
+    return query;
 }

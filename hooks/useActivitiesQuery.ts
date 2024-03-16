@@ -1,29 +1,12 @@
 import { getEmployeeActivities } from "@/actions/getEmployeeActivities";
-import { Activity } from "@/db/models";
-import { FetchStatus } from "@/types/fetchStatus";
-import { useCallback, useState } from "react";
+import { useQuery } from "react-query";
 
-export function useActivitiesQuery() {
-    const [activities, setActivities] = useState<Activity[] | null>(null);
-    const [fetchStatus, setActivitiesFetchStatus] =
-        useState<FetchStatus | null>(null);
+export function useActivitiesQuery(employeeId: number | null | undefined) {
+    const query = useQuery(
+        ["activities", employeeId],
+        () => getEmployeeActivities(employeeId!),
+        { enabled: !!employeeId },
+    );
 
-    const fetchActivities = useCallback((employeeId: number) => {
-        setActivitiesFetchStatus({ status: "loading" });
-
-        getEmployeeActivities(employeeId)
-            .then((t) => {
-                setActivitiesFetchStatus({ status: "success" });
-                setActivities(t);
-            })
-            .catch((error) => {
-                console.error(error);
-                setActivitiesFetchStatus({
-                    status: "error",
-                    errorMessage: "An unexpected error ocurred",
-                });
-            });
-    }, []);
-
-    return { activities, fetchStatus, fetchActivities };
+    return query;
 }

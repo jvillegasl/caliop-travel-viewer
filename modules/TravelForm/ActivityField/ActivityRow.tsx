@@ -15,15 +15,40 @@ type ActivityRowProps = {
 export function ActivityRow({ row }: ActivityRowProps) {
     const [open, setOpen] = useState<boolean>(false);
 
-    const { activityDetails, fetchStatus, fetchActivityDetails } =
-        useActivityDetailsQuery();
+    const {
+        data: activityDetails,
+        isLoading,
+        isSuccess,
+        error,
+        refetch,
+    } = useActivityDetailsQuery(row.VisitId);
 
     function handleClick() {
         setOpen((t) => !t);
 
         if (activityDetails) return;
 
-        fetchActivityDetails(row.VisitId);
+        refetch();
+    }
+
+    function getDetailsLists() {
+        if (isLoading) return <b>Loading...</b>;
+
+        if (error || !isSuccess) {
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : "An unexpected error ocurred";
+
+            return <b className="text-red-500">{errorMessage}</b>;
+        }
+
+        return (
+            <ActivityDetailsLists
+                activityId={row.Id}
+                activityDetails={activityDetails}
+            />
+        );
     }
 
     return (
@@ -63,21 +88,7 @@ export function ActivityRow({ row }: ActivityRowProps) {
                         <Box
                             sx={{ margin: 1, paddingTop: 2, paddingBottom: 2 }}
                         >
-                            {fetchStatus?.status === "loading" ? (
-                                <b>Loading...</b>
-                            ) : fetchStatus?.status === "success" &&
-                              activityDetails ? (
-                                <ActivityDetailsLists
-                                    activityId={row.Id}
-                                    activityDetails={activityDetails}
-                                />
-                            ) : fetchStatus?.status === "error" ? (
-                                <b className="text-red-500">
-                                    {fetchStatus.errorMessage}
-                                </b>
-                            ) : (
-                                <b>NOT FOUND</b>
-                            )}
+                            {getDetailsLists()}
                         </Box>
                     </Collapse>
                 </TableCell>

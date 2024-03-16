@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, createContext } from "react";
-import { Activity, Employee } from "@/db/models";
-import { FetchStatus } from "@/types/fetchStatus";
+import { Employee } from "@/db/models";
 import { TravelItem } from "@/types";
 
 type EmployeesContext = {
@@ -10,9 +9,6 @@ type EmployeesContext = {
 };
 
 type ActivityContext = {
-    activities: Activity[] | null;
-    filteredActivities: Activity[] | null;
-    activitiesFetchStatus: FetchStatus | null;
     activityId: number | null | undefined;
     setActivityId: Dispatch<SetStateAction<number | null | undefined>>;
     travelItem: TravelItem | null | undefined;

@@ -12,29 +12,46 @@ import {
 } from "@mui/material";
 import { Activity } from "@/db/models";
 import { ActivityRow } from "./ActivityRow";
+import { useActivitiesQuery } from "@/hooks/useActivitiesQuery";
+import { useMemo } from "react";
 
 export function ActivityField() {
-    const { filteredActivities, activitiesFetchStatus: fetchStatus } =
-        useTravelForm();
+    const { employeeId, activityId } = useTravelForm();
+    const {
+        data: activities,
+        isLoading,
+        isSuccess,
+        error,
+    } = useActivitiesQuery(employeeId);
 
-    if (fetchStatus === null) return;
+    if (!employeeId) return null;
 
-    if (fetchStatus.status === "loading") return <b>Loading...</b>;
+    if (isLoading) return <b>Loading...</b>;
 
-    if (fetchStatus.status === "error")
-        return <b className="text-red-500">{fetchStatus.errorMessage}</b>;
+    if (error || !isSuccess) {
+        const errorMessage =
+            error instanceof Error
+                ? error.message
+                : "An unexpected error ocurred";
 
-    if (fetchStatus.status === "success" && filteredActivities)
-        return <ActivitiesTable activities={filteredActivities} />;
+        return <b className="text-red-500">{errorMessage}</b>;
+    }
 
-    return <b>NOT FOUND</b>;
+    return <ActivitiesTable activityId={activityId} activities={activities} />;
 }
 
 type ActivitiesTableProps = {
+    activityId: number | null | undefined;
     activities: Activity[];
 };
 
-function ActivitiesTable({ activities }: ActivitiesTableProps) {
+function ActivitiesTable({ activityId, activities }: ActivitiesTableProps) {
+    const filteredActivities = useMemo(() => {
+        if (!activityId) return activities;
+
+        return activities?.filter((t) => t.Id === activityId) ?? null;
+    }, [activities, activityId]);
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -50,8 +67,8 @@ function ActivitiesTable({ activities }: ActivitiesTableProps) {
                 </TableHead>
 
                 <TableBody>
-                    {activities.map((row) => (
-                        <ActivityRow key={row.Id} row={row} />
+                    {filteredActivities.map((row) => (
+                        <ActivityRow key={row.VisitId} row={row} />
                     ))}
                 </TableBody>
             </Table>
