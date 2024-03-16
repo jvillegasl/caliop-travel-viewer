@@ -1,11 +1,11 @@
 "use server";
 
-import { getVisitDetails, getVisitExpense } from "@/db/queries/activity";
+import { selVisitDetails, selVisitExpense } from "@/db/queries/activity";
 import { ActivityDetails } from "@/types";
 
 export async function getActivityDetails(visitId: number) {
-    const visitDetails = await getVisitDetails(visitId);
-    const visitExpense = await getVisitExpense(visitId);
+    const visitDetails = await selVisitDetails(visitId);
+    const visitExpense = await selVisitExpense(visitId);
 
     const data: ActivityDetails = { visitDetails, visitExpense };
 

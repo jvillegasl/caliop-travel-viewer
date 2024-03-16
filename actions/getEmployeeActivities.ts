@@ -1,9 +1,9 @@
 "use server";
 
-import { getActivitiesByEmployeeId } from "@/db/queries/activity";
+import { selActivitiesByEmployeeId } from "@/db/queries/activity";
 
 export async function getEmployeeActivities(employeeId: number) {
-    const activities = await getActivitiesByEmployeeId(employeeId);
+    const activities = await selActivitiesByEmployeeId(employeeId);
 
     return activities;
 }

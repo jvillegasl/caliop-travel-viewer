@@ -1,7 +1,9 @@
+import "server-only";
+
 import { sleep } from "@/utils/sleep";
 import { ACTIVITIES } from "../data/activities";
 
-export async function getActivitiesByEmployeeId(employeeId: number) {
+export async function selActivitiesByEmployeeId(employeeId: number) {
     await sleep(Math.random() * 3000);
 
     const visits = ACTIVITIES.filter((t) => t.EmployeeId === employeeId);
@@ -9,7 +11,7 @@ export async function getActivitiesByEmployeeId(employeeId: number) {
     return visits;
 }
 
-export async function getVisitDetails(visitId: number) {
+export async function selVisitDetails(visitId: number) {
     const startDate = new Date(2024, 0, 1);
     const endDate = new Date();
 
@@ -29,7 +31,7 @@ export async function getVisitDetails(visitId: number) {
     };
 }
 
-export async function getVisitExpense(visitId: number) {
+export async function selVisitExpense(visitId: number) {
     const startDate = new Date(2024, 0, 1);
     const endDate = new Date();
 
