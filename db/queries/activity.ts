@@ -1,5 +1,5 @@
-import { ACTIVITIES } from "@/data/activities";
 import { sleep } from "@/utils/sleep";
+import { ACTIVITIES } from "../data/activities";
 
 export async function getActivitiesByEmployeeId(employeeId: number) {
     await sleep(Math.random() * 3000);
