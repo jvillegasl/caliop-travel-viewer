@@ -6,7 +6,7 @@ export function getArrowheadPattern(color?: string) {
             offset: "100%",
             repeat: 0,
             symbol: L.Symbol.arrowHead({
-                pixelSize: 15,
+                pixelSize: 6,
                 polygon: false,
                 pathOptions: { stroke: true, color },
             }),

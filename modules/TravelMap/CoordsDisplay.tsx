@@ -4,13 +4,14 @@ import { Localization } from "@/db/models";
 import { Marker, Popup } from "react-leaflet";
 import { useMemo } from "react";
 import { DecoratedPolyline } from "./DecoratedPolyline";
-import { getArrowheadPattern } from "./getArrowHeadPattern";
 import { getMarkerIcon } from "./getMarkerIcon";
+import { getArrowheadPattern } from "./getArrowHeadPattern";
 
 type CoordsDisplayProps = {
     coords: Localization[];
     coordsCount: number;
     color?: string;
+    colorGradient?: [string, string];
     showMarkers?: boolean;
 };
 
@@ -18,6 +19,7 @@ export function CoordsDisplay({
     coords,
     coordsCount,
     color,
+    colorGradient,
     showMarkers = false,
 }: CoordsDisplayProps) {
     const filteredCoords = useMemo(
@@ -55,7 +57,9 @@ export function CoordsDisplay({
             <DecoratedPolyline
                 positions={coordsPolyline}
                 color={color}
+                colorGradient={colorGradient}
                 patterns={getArrowheadPattern(color)}
+                decorateEachLine
             />
 
             {showMarkers && getCoordsMarkers()}
