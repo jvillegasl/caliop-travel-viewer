@@ -7,6 +7,7 @@ import { Visit } from "@/db/models";
 import { useState } from "react";
 import { VisitDetailsExpenseViewer } from "./VisitDetailsExpenseViewer";
 import { useVisitDetailsExpenseQuery } from "@/hooks/useVisitDetailsExpenseQuery";
+import moment from "moment";
 
 type VisitRowProps = {
     row: Visit;
@@ -43,7 +44,11 @@ export function VisitRow({ row }: VisitRowProps) {
             return <b className="text-red-500">{errorMessage}</b>;
         }
 
-        return <VisitDetailsExpenseViewer visitDetailsExpense={visitDetailsExpense} />;
+        return (
+            <VisitDetailsExpenseViewer
+                visitDetailsExpense={visitDetailsExpense}
+            />
+        );
     }
 
     return (
@@ -59,13 +64,14 @@ export function VisitRow({ row }: VisitRowProps) {
                     </IconButton>
                 </TableCell>
                 <TableCell>{row.Id}</TableCell>
+                <TableCell align="right">{row.ActivityId}</TableCell>
                 <TableCell align="right">{row.Title}</TableCell>
                 <TableCell align="right">{row.Description}</TableCell>
                 <TableCell align="right">
-                    {row.PlannedStartDate.toISOString()}
+                    {moment(row.PlannedStartDate).format("yyyy/MM/DD hh:mm:ss")}
                 </TableCell>
                 <TableCell align="right">
-                    {row.PlannedEndDate.toISOString()}
+                    {moment(row.PlannedEndDate).format("yyyy/MM/DD hh:mm:ss")}
                 </TableCell>
             </TableRow>
 
