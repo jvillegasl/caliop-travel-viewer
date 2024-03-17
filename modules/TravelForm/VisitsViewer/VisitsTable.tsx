@@ -10,37 +10,18 @@ import {
     TableSortLabel,
 } from "@mui/material";
 import { VisitRow } from "./VisitRow";
-import { Dispatch, ReactNode, SetStateAction, useMemo, useState } from "react";
-
-type SortField = keyof Pick<Visit, "Id" | "ActivityId" | "PlannedStartDate">;
-type SortCriteria = {
-    field: SortField;
-    asc: boolean;
-};
-
-const compareFnByField = {
-    Id: (a, b) => a.Id - b.Id,
-    ActivityId: (a, b) => a.ActivityId - b.ActivityId,
-    PlannedStartDate: (a, b) =>
-        a.PlannedStartDate.valueOf() - b.PlannedStartDate.valueOf(),
-} satisfies Record<SortField, (a: Visit, b: Visit) => number>;
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import {
+    SortCriteria,
+    SortField,
+    useFilterSortVisits,
+} from "@/hooks/useFilterSortVisits";
 
 type VisitsTableProps = { visits: Visit[] };
 
 export function VisitsTable({ visits }: VisitsTableProps) {
-    const [sortCriteria, setSortCriteria] = useState<SortCriteria | null>(null);
-
-    const sortedVisits = useMemo(() => {
-        if (!sortCriteria) return visits;
-
-        const compareFn = compareFnByField[sortCriteria.field];
-
-        const sorted = visits.toSorted(compareFn);
-
-        if (!sortCriteria.asc) sorted.reverse();
-
-        return sorted;
-    }, [visits, sortCriteria]);
+    const { sortedVisits, sortCriteria, setSortCriteria } =
+        useFilterSortVisits(visits);
 
     return (
         <TableContainer component={Paper}>
@@ -48,7 +29,7 @@ export function VisitsTable({ visits }: VisitsTableProps) {
                 <TableHead>
                     <TableRow>
                         <TableCell />
-                        <TableCell>
+                        <TableCell align="center">
                             <SortingCellBody
                                 sortField="Id"
                                 sortCriteria={sortCriteria}
@@ -57,7 +38,7 @@ export function VisitsTable({ visits }: VisitsTableProps) {
                                 Id
                             </SortingCellBody>
                         </TableCell>
-                        <TableCell align="right">
+                        <TableCell align="center">
                             <SortingCellBody
                                 sortField="ActivityId"
                                 sortCriteria={sortCriteria}
@@ -66,9 +47,9 @@ export function VisitsTable({ visits }: VisitsTableProps) {
                                 ActivityId
                             </SortingCellBody>
                         </TableCell>
-                        <TableCell align="right">Title</TableCell>
-                        <TableCell align="right">Description</TableCell>
-                        <TableCell align="right">
+                        <TableCell align="left">Title</TableCell>
+                        <TableCell align="left">Description</TableCell>
+                        <TableCell align="left">
                             <SortingCellBody
                                 sortField="PlannedStartDate"
                                 sortCriteria={sortCriteria}
@@ -77,7 +58,7 @@ export function VisitsTable({ visits }: VisitsTableProps) {
                                 PlannedStartDate
                             </SortingCellBody>
                         </TableCell>
-                        <TableCell align="right">PlannedEndDate</TableCell>
+                        <TableCell align="left">PlannedEndDate</TableCell>
                     </TableRow>
                 </TableHead>
 

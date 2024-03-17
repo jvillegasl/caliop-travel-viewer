@@ -3,6 +3,7 @@
 import { useTravelForm } from "@/hooks/useTravelForm";
 import { useEmployeeVisitsQuery } from "@/hooks/useEmployeeVisitsQuery";
 import { VisitsTable } from "./VisitsTable";
+import { VisitsFilter } from "./VisitsFilter";
 
 export function VisitsViewer() {
     const { employeeId } = useTravelForm();
@@ -26,5 +27,13 @@ export function VisitsViewer() {
         return <b className="text-red-500">{errorMessage}</b>;
     }
 
-    return <VisitsTable visits={visits} />;
+    return (
+        <div>
+            <VisitsFilter />
+
+            <br />
+
+            <VisitsTable visits={visits} />
+        </div>
+    );
 }

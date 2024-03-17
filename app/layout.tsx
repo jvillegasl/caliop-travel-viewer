@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
+import { MuiLocalizationProvider } from "@/providers/MuiLocalizationProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
             <body className={inter.className}>
                 <AppRouterCacheProvider>
                     <ReactQueryProvider>
-                        <main className="my-8 mx-12">{children}</main>
+                        <MuiLocalizationProvider>
+                            <main className="my-8 mx-12">{children}</main>
+                        </MuiLocalizationProvider>
                     </ReactQueryProvider>
                 </AppRouterCacheProvider>
             </body>

@@ -5,6 +5,7 @@ import { VisitDetailsExpense } from "@/types";
 import { BaseVisitTravel } from "@/db/models";
 import { TravelType } from "@/enums/travelType";
 import { VisitDetailsExpenseBox } from "./VisitDetailsExpenseBox";
+import moment from "moment";
 
 type VisitDetailsExpenseViewerProps = {
     visitDetailsExpense: VisitDetailsExpense;
@@ -22,13 +23,28 @@ export function VisitDetailsExpenseViewer({
                     type={TravelType.VISIT}
                 >
                     <BaseVisitTravelItems details={visitDetails} />
+
                     <ListItem sx={{ display: "list-item" }}>
-                        <b>StartDate:</b>{" "}
-                        {visitDetails.SessionStartDate.toISOString()}
-                    </ListItem>
-                    <ListItem sx={{ display: "list-item" }}>
-                        <b>EndDate:</b>{" "}
-                        {visitDetails.SessionEndDate.toISOString()}
+                        <b>Seesion:</b>
+                        <List
+                            sx={{
+                                listStyleType: "disc",
+                                listStylePosition: "inside",
+                            }}
+                        >
+                            <ListItem sx={{ display: "list-item" }}>
+                                <b>StartDate:</b>{" "}
+                                {moment(visitDetails.SessionStartDate)
+                                    .utc()
+                                    .format("yyyy/MM/DD hh:mm:ss UTC")}
+                            </ListItem>
+                            <ListItem sx={{ display: "list-item" }}>
+                                <b>EndDate:</b>{" "}
+                                {moment(visitDetails.SessionEndDate)
+                                    .utc()
+                                    .format("yyyy/MM/DD hh:mm:ss UTC")}
+                            </ListItem>
+                        </List>
                     </ListItem>
                 </VisitDetailsExpenseBox>
             </Grid>
@@ -66,10 +82,16 @@ function BaseVisitTravelItems({ details }: BaseVisitTravelProps) {
                     }}
                 >
                     <ListItem sx={{ display: "list-item" }}>
-                        <b>StartDate:</b> {details.RouteStartDate.toISOString()}
+                        <b>StartDate:</b>{" "}
+                        {moment(details.RouteStartDate)
+                            .utc()
+                            .format("yyyy/MM/DD hh:mm:ss UTC")}
                     </ListItem>
                     <ListItem sx={{ display: "list-item" }}>
-                        <b>EndDate:</b> {details.RouteEndDate.toISOString()}
+                        <b>EndDate:</b>{" "}
+                        {moment(details.RouteEndDate)
+                            .utc()
+                            .format("yyyy/MM/DD hh:mm:ss UTC")}
                     </ListItem>
                     <ListItem sx={{ display: "list-item" }}>
                         <b>Mileage:</b> {details.RouteMiles}
@@ -87,10 +109,15 @@ function BaseVisitTravelItems({ details }: BaseVisitTravelProps) {
                 >
                     <ListItem sx={{ display: "list-item" }}>
                         <b>StartDate:</b>{" "}
-                        {details.ReturnStartDate.toISOString()}
+                        {moment(details.ReturnStartDate)
+                            .utc()
+                            .format("yyyy/MM/DD hh:mm:ss UTC")}
                     </ListItem>
                     <ListItem sx={{ display: "list-item" }}>
-                        <b>EndDate:</b> {details.ReturnEndDate.toISOString()}
+                        <b>EndDate:</b>{" "}
+                        {moment(details.ReturnEndDate)
+                            .utc()
+                            .format("yyyy/MM/DD hh:mm:ss UTC")}
                     </ListItem>
                     <ListItem sx={{ display: "list-item" }}>
                         <b>Mileage:</b> {details.ReturnMiles}

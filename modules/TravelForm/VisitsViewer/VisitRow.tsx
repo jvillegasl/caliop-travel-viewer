@@ -63,15 +63,19 @@ export function VisitRow({ row }: VisitRowProps) {
                         )}
                     </IconButton>
                 </TableCell>
-                <TableCell>{row.Id}</TableCell>
-                <TableCell align="right">{row.ActivityId}</TableCell>
-                <TableCell align="right">{row.Title}</TableCell>
-                <TableCell align="right">{row.Description}</TableCell>
-                <TableCell align="right">
-                    {moment(row.PlannedStartDate).format("yyyy/MM/DD hh:mm:ss")}
+                <TableCell align="center">{row.Id}</TableCell>
+                <TableCell align="center">{row.ActivityId}</TableCell>
+                <TableCell align="left">{row.Title}</TableCell>
+                <TableCell align="left">{row.Description}</TableCell>
+                <TableCell align="left">
+                    {moment(row.PlannedStartDate)
+                        .utc()
+                        .format("yyyy/MM/DD hh:mm:ss UTC")}
                 </TableCell>
-                <TableCell align="right">
-                    {moment(row.PlannedEndDate).format("yyyy/MM/DD hh:mm:ss")}
+                <TableCell align="left">
+                    {moment(row.PlannedEndDate)
+                        .utc()
+                        .format("yyyy/MM/DD hh:mm:ss UTC")}
                 </TableCell>
             </TableRow>
 
