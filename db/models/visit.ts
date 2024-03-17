@@ -1,6 +1,6 @@
-export type Activity = {
+export type Visit = {
     Id: number;
-    VisitId: number;
+    ActivityId: number;
     Title: string;
     Description: string;
     PlannedStartDate: Date;
@@ -8,7 +8,7 @@ export type Activity = {
     EmployeeId: number;
 };
 
-export type BaseVisitDetails = {
+export type BaseVisitTravel = {
     Id: number;
     RouteStartDate: Date;
     RouteEndDate: Date;
@@ -16,12 +16,11 @@ export type BaseVisitDetails = {
     ReturnStartDate: Date;
     ReturnEndDate: Date;
     ReturnMiles: number;
-    VisitId: number;
 };
 
-export type VisitDetails = BaseVisitDetails & {
+export type VisitDetails = BaseVisitTravel & {
     SessionStartDate: Date;
     SessionEndDate: Date;
 };
 
-export type VisitExpense = BaseVisitDetails;
+export type VisitExpense = BaseVisitTravel;

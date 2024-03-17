@@ -1,27 +1,27 @@
 "use client";
 
 import { Grid, List, ListItem } from "@mui/material";
-import { ActivityDetails } from "@/types";
-import { BaseVisitDetails } from "@/db/models";
+import { VisitDetailsExpense } from "@/types";
+import { BaseVisitTravel } from "@/db/models";
 import { TravelType } from "@/enums/travelType";
-import { ActivityDetailsBox } from "./ActivityDetailsBox";
+import { VisitDetailsExpenseBox } from "./VisitDetailsExpenseBox";
 
-type ActivityDetailsListsProps = {
-    activityDetails: ActivityDetails;
+type VisitDetailsExpenseViewerProps = {
+    visitDetailsExpense: VisitDetailsExpense;
 };
 
-export function ActivityDetailsLists({
-    activityDetails: { visitDetails, visitExpense },
-}: ActivityDetailsListsProps) {
+export function VisitDetailsExpenseViewer({
+    visitDetailsExpense: { visitDetails, visitExpense },
+}: VisitDetailsExpenseViewerProps) {
     return (
         <Grid container columnSpacing={6}>
             <Grid item xs>
-                <ActivityDetailsBox
+                <VisitDetailsExpenseBox
                     title="Visit Details"
                     id={visitDetails.Id}
                     type={TravelType.VISIT}
                 >
-                    <BaseVisitDetailsItems details={visitDetails} />
+                    <BaseVisitTravelItems details={visitDetails} />
                     <ListItem sx={{ display: "list-item" }}>
                         <b>StartDate:</b>{" "}
                         {visitDetails.SessionStartDate.toISOString()}
@@ -30,27 +30,27 @@ export function ActivityDetailsLists({
                         <b>EndDate:</b>{" "}
                         {visitDetails.SessionEndDate.toISOString()}
                     </ListItem>
-                </ActivityDetailsBox>
+                </VisitDetailsExpenseBox>
             </Grid>
 
             <Grid item xs>
-                <ActivityDetailsBox
+                <VisitDetailsExpenseBox
                     title="Visit Expense"
                     id={visitExpense.Id}
                     type={TravelType.EXPENSE}
                 >
-                    <BaseVisitDetailsItems details={visitExpense} />
-                </ActivityDetailsBox>
+                    <BaseVisitTravelItems details={visitExpense} />
+                </VisitDetailsExpenseBox>
             </Grid>
         </Grid>
     );
 }
 
-type BaseVisitDetailsItemsProps = {
-    details: BaseVisitDetails;
+type BaseVisitTravelProps = {
+    details: BaseVisitTravel;
 };
 
-function BaseVisitDetailsItems({ details }: BaseVisitDetailsItemsProps) {
+function BaseVisitTravelItems({ details }: BaseVisitTravelProps) {
     return (
         <>
             <ListItem sx={{ display: "list-item" }}>

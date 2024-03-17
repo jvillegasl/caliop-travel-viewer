@@ -3,30 +3,30 @@
 import { Box, Collapse, IconButton, TableCell, TableRow } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Activity } from "@/db/models";
+import { Visit } from "@/db/models";
 import { useState } from "react";
-import { ActivityDetailsLists } from "./ActivityDetailsLists";
-import { useActivityDetailsQuery } from "@/hooks/useActivityDetailsQuery";
+import { VisitDetailsExpenseViewer } from "./VisitDetailsExpenseViewer";
+import { useVisitDetailsExpenseQuery } from "@/hooks/useVisitDetailsExpenseQuery";
 
-type ActivityRowProps = {
-    row: Activity;
+type VisitRowProps = {
+    row: Visit;
 };
 
-export function ActivityRow({ row }: ActivityRowProps) {
+export function VisitRow({ row }: VisitRowProps) {
     const [open, setOpen] = useState<boolean>(false);
 
     const {
-        data: activityDetails,
+        data: visitDetailsExpense,
         isLoading,
         isSuccess,
         error,
         refetch,
-    } = useActivityDetailsQuery(row.VisitId);
+    } = useVisitDetailsExpenseQuery(row.Id);
 
     function handleClick() {
         setOpen((t) => !t);
 
-        if (activityDetails) return;
+        if (visitDetailsExpense) return;
 
         refetch();
     }
@@ -43,7 +43,7 @@ export function ActivityRow({ row }: ActivityRowProps) {
             return <b className="text-red-500">{errorMessage}</b>;
         }
 
-        return <ActivityDetailsLists activityDetails={activityDetails} />;
+        return <VisitDetailsExpenseViewer visitDetailsExpense={visitDetailsExpense} />;
     }
 
     return (

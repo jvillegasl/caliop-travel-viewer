@@ -1,7 +1,7 @@
 import { TravelFormProvider } from "@/providers/TravelFormProvider";
 import { EmployeeField } from "./EmployeeField";
 import { selEmployees } from "@/db/queries/employee";
-import { ActivityField } from "./ActivityField";
+import { VisitsViewer } from "./VisitsViewer";
 import { Box } from "@mui/material";
 
 export default async function TravelForm() {
@@ -14,7 +14,7 @@ export default async function TravelForm() {
 
                 <br />
 
-                <ActivityField />
+                <VisitsViewer />
             </Box>
         </TravelFormProvider>
     );

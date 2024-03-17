@@ -1,12 +1,12 @@
 import "server-only";
 
 import { sleep } from "@/utils/sleep";
-import { ACTIVITIES } from "../data/activities";
+import { VISITS } from "../data/visits";
 
-export async function selActivitiesByEmployeeId(employeeId: number) {
+export async function selVisitsByEmployeeId(employeeId: number) {
     await sleep(Math.random() * 3000);
 
-    const visits = ACTIVITIES.filter((t) => t.EmployeeId === employeeId);
+    const visits = VISITS.filter((t) => t.EmployeeId === employeeId);
 
     return visits;
 }

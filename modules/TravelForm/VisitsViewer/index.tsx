@@ -1,17 +1,17 @@
 "use client";
 
 import { useTravelForm } from "@/hooks/useTravelForm";
-import { useActivitiesQuery } from "@/hooks/useActivitiesQuery";
-import { ActivitiesTable } from "./ActivitiesTable";
+import { useEmployeeVisitsQuery } from "@/hooks/useEmployeeVisitsQuery";
+import { VisitsTable } from "./VisitsTable";
 
-export function ActivityField() {
+export function VisitsViewer() {
     const { employeeId } = useTravelForm();
     const {
-        data: activities,
+        data: visits,
         isLoading,
         isSuccess,
         error,
-    } = useActivitiesQuery(employeeId);
+    } = useEmployeeVisitsQuery(employeeId);
 
     if (!employeeId) return null;
 
@@ -26,5 +26,5 @@ export function ActivityField() {
         return <b className="text-red-500">{errorMessage}</b>;
     }
 
-    return <ActivitiesTable activities={activities} />;
+    return <VisitsTable visits={visits} />;
 }

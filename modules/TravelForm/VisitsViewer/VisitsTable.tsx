@@ -1,4 +1,4 @@
-import { Activity } from "@/db/models";
+import { Visit } from "@/db/models";
 import {
     Paper,
     Table,
@@ -8,11 +8,11 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
-import { ActivityRow } from "./ActivityRow";
+import { VisitRow } from "./VisitRow";
 
-type ActivitiesTableProps = { activities: Activity[] };
+type VisitsTableProps = { visits: Visit[] };
 
-export function ActivitiesTable({ activities }: ActivitiesTableProps) {
+export function VisitsTable({ visits }: VisitsTableProps) {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -28,8 +28,8 @@ export function ActivitiesTable({ activities }: ActivitiesTableProps) {
                 </TableHead>
 
                 <TableBody>
-                    {activities.map((row) => (
-                        <ActivityRow key={row.VisitId} row={row} />
+                    {visits.map((row) => (
+                        <VisitRow key={row.Id} row={row} />
                     ))}
                 </TableBody>
             </Table>

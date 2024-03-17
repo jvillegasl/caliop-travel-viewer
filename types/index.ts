@@ -1,3 +1,3 @@
-export * from "./activityDetails";
+export * from "./visitDetailsExpense";
 export * from "./fetchStatus";
 export * from "./travelItem";

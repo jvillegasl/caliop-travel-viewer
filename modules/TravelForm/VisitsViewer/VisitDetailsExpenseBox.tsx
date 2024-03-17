@@ -3,19 +3,19 @@ import { Box, Button, Link, List, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
-type ActivityDetailsBox = {
+type VisitDetailsExpenseBoxProps = {
     id: number;
     type: TravelType;
     title: string;
     children: ReactNode;
 };
 
-export function ActivityDetailsBox({
+export function VisitDetailsExpenseBox({
     id,
     type,
     title,
     children,
-}: ActivityDetailsBox) {
+}: VisitDetailsExpenseBoxProps) {
     return (
         <Box
             height="100%"
