@@ -1,10 +1,22 @@
 import "server-only";
 
-import { sleep } from "@/utils/sleep";
-import { EMPLOYEES } from "../data/employees";
+import sql from "mssql";
+import { sqlConnect } from "../connect";
+import { Employee } from "../models";
 
-export async function selEmployees() {
-    await sleep(Math.random() * 3000);
+export async function selEmployees(): Promise<Employee[]> {
+    await sqlConnect();
 
-    return EMPLOYEES;
+    const result = await sql.query<Employee>`
+		SELECT
+			E.Id,
+			E.Name,
+			E.Lastname
+		FROM Employee AS E
+		WHERE E.Active = 1
+	`;
+
+    const employees = result.recordset.flat();
+
+    return employees;
 }

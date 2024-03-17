@@ -16,48 +16,58 @@ export function VisitDetailsExpenseViewer({
 }: VisitDetailsExpenseViewerProps) {
     return (
         <Grid container columnSpacing={6}>
-            <Grid item xs>
-                <VisitDetailsExpenseBox
-                    title="Visit Details"
-                    id={visitDetails.Id}
-                    type={TravelType.VISIT}
-                >
-                    <BaseVisitTravelItems details={visitDetails} />
+            {!visitDetails && !visitExpense && (
+                <Grid item>
+                    <b>No VisitDetail or VisitExpense were found</b>
+                </Grid>
+            )}
 
-                    <ListItem sx={{ display: "list-item" }}>
-                        <b>Seesion:</b>
-                        <List
-                            sx={{
-                                listStyleType: "disc",
-                                listStylePosition: "inside",
-                            }}
-                        >
-                            <ListItem sx={{ display: "list-item" }}>
-                                <b>StartDate:</b>{" "}
-                                {moment(visitDetails.SessionStartDate)
-                                    .utc()
-                                    .format("yyyy/MM/DD hh:mm:ss UTC")}
-                            </ListItem>
-                            <ListItem sx={{ display: "list-item" }}>
-                                <b>EndDate:</b>{" "}
-                                {moment(visitDetails.SessionEndDate)
-                                    .utc()
-                                    .format("yyyy/MM/DD hh:mm:ss UTC")}
-                            </ListItem>
-                        </List>
-                    </ListItem>
-                </VisitDetailsExpenseBox>
-            </Grid>
+            {!!visitDetails && (
+                <Grid item xs>
+                    <VisitDetailsExpenseBox
+                        title="Visit Details"
+                        id={visitDetails.Id}
+                        type={TravelType.VISIT}
+                    >
+                        <BaseVisitTravelItems details={visitDetails} />
 
-            <Grid item xs>
-                <VisitDetailsExpenseBox
-                    title="Visit Expense"
-                    id={visitExpense.Id}
-                    type={TravelType.EXPENSE}
-                >
-                    <BaseVisitTravelItems details={visitExpense} />
-                </VisitDetailsExpenseBox>
-            </Grid>
+                        <ListItem sx={{ display: "list-item" }}>
+                            <b>Seesion:</b>
+                            <List
+                                sx={{
+                                    listStyleType: "disc",
+                                    listStylePosition: "inside",
+                                }}
+                            >
+                                <ListItem sx={{ display: "list-item" }}>
+                                    <b>StartDate:</b>{" "}
+                                    {moment(visitDetails.SessionStartDate)
+                                        .utc()
+                                        .format("yyyy/MM/DD hh:mm:ss UTC")}
+                                </ListItem>
+                                <ListItem sx={{ display: "list-item" }}>
+                                    <b>EndDate:</b>{" "}
+                                    {moment(visitDetails.SessionEndDate)
+                                        .utc()
+                                        .format("yyyy/MM/DD hh:mm:ss UTC")}
+                                </ListItem>
+                            </List>
+                        </ListItem>
+                    </VisitDetailsExpenseBox>
+                </Grid>
+            )}
+
+            {!!visitExpense && (
+                <Grid item xs>
+                    <VisitDetailsExpenseBox
+                        title="Visit Expense"
+                        id={visitExpense.Id}
+                        type={TravelType.EXPENSE}
+                    >
+                        <BaseVisitTravelItems details={visitExpense} />
+                    </VisitDetailsExpenseBox>
+                </Grid>
+            )}
         </Grid>
     );
 }

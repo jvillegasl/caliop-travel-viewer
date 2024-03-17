@@ -10,12 +10,12 @@ export type Visit = {
 
 export type BaseVisitTravel = {
     Id: number;
-    RouteStartDate: Date;
-    RouteEndDate: Date;
-    RouteMiles: number;
-    ReturnStartDate: Date;
-    ReturnEndDate: Date;
-    ReturnMiles: number;
+    RouteStartDate?: Date;
+    RouteEndDate?: Date;
+    RouteMiles?: number;
+    ReturnStartDate?: Date;
+    ReturnEndDate?: Date;
+    ReturnMiles?: number;
 };
 
 export type VisitDetails = BaseVisitTravel & {

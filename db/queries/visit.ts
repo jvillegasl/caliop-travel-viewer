@@ -1,64 +1,79 @@
 import "server-only";
 
-import { sleep } from "@/utils/sleep";
-import { VISITS } from "../data/visits";
+import sql from "mssql";
+import { sqlConnect } from "../connect";
+import { Visit, VisitDetails, VisitExpense } from "../models";
+import { VisitDetailsExpense } from "@/types";
 
-export async function selVisitsByEmployeeId(employeeId: number) {
-    await sleep(Math.random() * 3000);
+export async function selVisitsByEmployeeId(
+    employeeId: number,
+): Promise<Visit[]> {
+    await sqlConnect();
 
-    const visits = VISITS.filter((t) => t.EmployeeId === employeeId);
+    const results = await sql.query<Visit>`
+		SELECT
+			V.Id,
+			V.ActivityId,
+			ISNULL(V.Title, 'NULL') AS Title,
+			ISNULL(V.Description, 'NULL') AS Description,
+			A.PlannedStartTime AS PlannedStartDate,
+			A.PlannedEndTime AS PlannedEndDate,
+			V.EmployeeId
+		FROM Visit AS V
+		INNER JOIN Activity AS A ON A.Id = V.ActivityId
+		WHERE
+			V.EmployeeId = ${employeeId}
+			AND V.IsManual <> 1
+	`;
+
+    const visits = results.recordset.flat();
 
     return visits;
 }
 
-export async function selVisitDetails(visitId: number) {
-    const startDate = new Date(2024, 0, 1);
-    const endDate = new Date();
+export async function selVisitDetailsExpense(
+    visitId: number,
+): Promise<VisitDetailsExpense> {
+    await sqlConnect();
 
-    await sleep(Math.random() * 3000);
+    const result = await sql.query<[VisitDetails?, VisitExpense?]>`
+		SELECT TOP 1
+			VD.Id,
+			VD.RouteStartTime AS RouteStartDate,
+			VD.RouteEndTime AS RouteEndDate,
+			VD.RouteMiles,
+			VD.ReturnStartTime AS ReturnStartDate,
+			VD.ReturnEndTime AS ReturnEndDate,
+			VD.ReturnMiles,
+			VD.SesionStartTime AS SessionStartDate,
+			VD.SesionEndTime AS SessionEndDate
+
+		FROM VisitDetail AS VD
+		WHERE
+			VD.VisitId = ${visitId}
+		;
+
+		SELECT TOP 1
+			VE.Id,
+			VE.RouteStartTime AS RouteStartDate,
+			VE.RouteEndTime AS RouteEndDate,
+			VE.RouteMiles,
+			VE.ReturnStartTime AS ReturnStartDate,
+			VE.ReturnEndTime AS ReturnEndDate,
+			VE.ReturnMiles
+
+		FROM VisitExpense AS VE
+		WHERE
+			VE.VisitId = ${visitId}
+	`;
+
+    const recordSets = result.recordsets;
+
+    const visitDetails = recordSets?.[0]?.flat()?.[0];
+    const visitExpense = recordSets?.[1]?.flat()?.[0];
 
     return {
-        Id: generateRandomId(),
-        RouteStartDate: generateRandomDate(startDate, endDate),
-        RouteEndDate: generateRandomDate(startDate, endDate),
-        RouteMiles: generateRandomNumber(50, 200),
-        ReturnStartDate: generateRandomDate(startDate, endDate),
-        ReturnEndDate: generateRandomDate(startDate, endDate),
-        ReturnMiles: generateRandomNumber(50, 200),
-        SessionStartDate: generateRandomDate(startDate, endDate),
-        SessionEndDate: generateRandomDate(startDate, endDate),
-        VisitId: visitId,
+        visitExpense,
+        visitDetails,
     };
-}
-
-export async function selVisitExpense(visitId: number) {
-    const startDate = new Date(2024, 0, 1);
-    const endDate = new Date();
-
-    await sleep(Math.random() * 3000);
-
-    return {
-        Id: generateRandomId(),
-        RouteStartDate: generateRandomDate(startDate, endDate),
-        RouteEndDate: generateRandomDate(startDate, endDate),
-        RouteMiles: generateRandomNumber(50, 200),
-        ReturnStartDate: generateRandomDate(startDate, endDate),
-        ReturnEndDate: generateRandomDate(startDate, endDate),
-        ReturnMiles: generateRandomNumber(50, 200),
-        VisitId: visitId,
-    };
-}
-
-function generateRandomDate(start: Date, end: Date): Date {
-    return new Date(
-        start.getTime() + Math.random() * (end.getTime() - start.getTime()),
-    );
-}
-
-function generateRandomNumber(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function generateRandomId(): number {
-    return Math.floor(Math.random() * 1000);
 }
