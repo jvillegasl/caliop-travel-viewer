@@ -6,6 +6,7 @@ import "leaflet-defaulticon-compatibility";
 
 import { MapContainer, TileLayer } from "react-leaflet";
 import { Box, Slider, Stack, Typography } from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useState } from "react";
 import { TravelCoords } from "@/types/travelCoords";
 import { CoordsDisplay } from "./CoordsDisplay";
@@ -68,7 +69,10 @@ export default function TravelMap({
             >
                 <Box>
                     <Stack spacing={4} direction="row" alignItems="center">
-                        <Typography width={50}>Route</Typography>
+                        <Stack spacing={1} direction="row" alignItems="center">
+                            <Typography width={50}>Route</Typography>
+                            <ArrowForwardIcon sx={{ color: "#FF0000" }} />
+                        </Stack>
 
                         <Slider
                             sx={{ width: 200 }}
@@ -83,7 +87,10 @@ export default function TravelMap({
                     </Stack>
 
                     <Stack spacing={4} direction="row" alignItems="center">
-                        <Typography width={50}>Return</Typography>
+                        <Stack spacing={1} direction="row" alignItems="center">
+                            <Typography width={50}>Return</Typography>
+                            <ArrowForwardIcon sx={{ color: "#0000FF" }} />
+                        </Stack>
 
                         <Slider
                             sx={{ width: 200 }}
