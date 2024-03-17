@@ -43,12 +43,7 @@ export function ActivityRow({ row }: ActivityRowProps) {
             return <b className="text-red-500">{errorMessage}</b>;
         }
 
-        return (
-            <ActivityDetailsLists
-                activityId={row.Id}
-                activityDetails={activityDetails}
-            />
-        );
+        return <ActivityDetailsLists activityDetails={activityDetails} />;
     }
 
     return (
@@ -85,9 +80,7 @@ export function ActivityRow({ row }: ActivityRowProps) {
                     colSpan={12}
                 >
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box
-                            sx={{ margin: 1, paddingTop: 2, paddingBottom: 2 }}
-                        >
+                        <Box sx={{ margin: 1, paddingY: 4 }}>
                             {getDetailsLists()}
                         </Box>
                     </Collapse>

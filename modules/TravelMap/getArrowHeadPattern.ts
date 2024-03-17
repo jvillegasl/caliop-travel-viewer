@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 export function getArrowheadPattern(color?: string) {
     return [
         {

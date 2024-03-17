@@ -20,7 +20,9 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <AppRouterCacheProvider>
-                    <ReactQueryProvider>{children}</ReactQueryProvider>
+                    <ReactQueryProvider>
+                        <main className="my-8 mx-12">{children}</main>
+                    </ReactQueryProvider>
                 </AppRouterCacheProvider>
             </body>
         </html>

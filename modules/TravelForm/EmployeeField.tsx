@@ -8,6 +8,7 @@ export function EmployeeField() {
 
     return (
         <Autocomplete
+            sx={{ width: 320 }}
             disablePortal
             options={employees}
             getOptionKey={(option) => option.Id}
