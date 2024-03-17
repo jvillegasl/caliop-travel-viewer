@@ -1,7 +1,7 @@
-import { getLocalizationByTravel } from "@/db/queries/localization";
+import { selLocalizationByTravel } from "@/db/queries/localization";
 import { TravelType } from "@/enums/travelType";
-import { TravelMap } from "@/modules/TravelMap";
 import { TravelItem } from "@/types";
+import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 
@@ -16,6 +16,11 @@ const paramsSchema = z.object({
     type: z.nativeEnum(TravelType),
 }) satisfies z.ZodType<Params>;
 
+const LazyTravelMap = dynamic(() => import("@/modules/TravelMap"), {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+});
+
 export default async function Page({ params }: PageProps) {
     const validationResult = paramsSchema.safeParse(params);
 
@@ -23,7 +28,7 @@ export default async function Page({ params }: PageProps) {
 
     const travelItem = validationResult.data;
 
-    const coords = await getLocalizationByTravel(travelItem);
+    const coords = await selLocalizationByTravel(travelItem);
 
     return (
         <main>
@@ -31,7 +36,7 @@ export default async function Page({ params }: PageProps) {
 
             <div>{travelItem.type}</div>
 
-            <TravelMap coords={coords} />
+            <LazyTravelMap travelCoords={coords} />
         </main>
     );
 }

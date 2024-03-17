@@ -14,11 +14,11 @@ export function MapButton() {
         <Button
             LinkComponent={Link}
             variant="contained"
-			href="/map"
-			target="_blank"
+            href={`/${travelItem.type}/${travelItem.id}`}
+            target="_blank"
             endIcon={<OpenInNewIcon />}
         >
-            Send
+            Go to map
         </Button>
     );
 }
