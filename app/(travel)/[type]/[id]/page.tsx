@@ -31,12 +31,20 @@ export default async function Page({ params }: PageProps) {
     const coords = await selLocalizationByTravel(travelItem);
 
     return (
-        <main>
-            <div>{travelItem.id}</div>
+        <>
+            <div>
+                <b>Travel:</b>{" "}
+                <span className="capitalize">{travelItem.type}</span>
+            </div>
 
-            <div>{travelItem.type}</div>
+            <div>
+                <b>Id:</b>
+                {travelItem.id}
+            </div>
+
+            <br />
 
             <LazyTravelMap travelCoords={coords} />
-        </main>
+        </>
     );
 }
