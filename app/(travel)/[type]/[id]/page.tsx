@@ -38,8 +38,7 @@ export default async function Page({ params }: PageProps) {
             </div>
 
             <div>
-                <b>Id:</b>
-                {travelItem.id}
+                <b>Id:</b> {travelItem.id}
             </div>
 
             <br />
