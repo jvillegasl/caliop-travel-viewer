@@ -23,7 +23,11 @@ export default function RootLayout({
                 <AppRouterCacheProvider>
                     <ReactQueryProvider>
                         <MuiLocalizationProvider>
-                            <main className="my-8 mx-12">{children}</main>
+                            <main className="my-8 mx-12">
+                                <div className="mx-auto max-w-screen-2xl">
+                                    {children}
+                                </div>
+                            </main>
                         </MuiLocalizationProvider>
                     </ReactQueryProvider>
                 </AppRouterCacheProvider>

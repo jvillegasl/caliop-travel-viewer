@@ -1,11 +1,12 @@
 "use client";
 
-import { Grid, List, ListItem } from "@mui/material";
+import { Grid, List, ListItem, Typography } from "@mui/material";
 import { VisitDetailsExpense } from "@/types";
 import { BaseVisitTravel } from "@/db/models";
 import { TravelType } from "@/enums/travelType";
 import { VisitDetailsExpenseBox } from "./VisitDetailsExpenseBox";
 import moment from "moment";
+import { NotFoundBox } from "./NotFoundBox";
 
 type VisitDetailsExpenseViewerProps = {
     visitDetailsExpense: VisitDetailsExpense;
@@ -16,57 +17,77 @@ export function VisitDetailsExpenseViewer({
 }: VisitDetailsExpenseViewerProps) {
     return (
         <Grid container columnSpacing={6}>
-            {!visitDetails && !visitExpense && (
+            {!visitDetails && !visitExpense ? (
                 <Grid item>
                     <b>No VisitDetail or VisitExpense were found</b>
                 </Grid>
-            )}
-
-            {!!visitDetails && (
-                <Grid item xs>
-                    <VisitDetailsExpenseBox
-                        title="Visit Details"
-                        id={visitDetails.Id}
-                        type={TravelType.VISIT}
-                    >
-                        <BaseVisitTravelItems details={visitDetails} />
-
-                        <ListItem sx={{ display: "list-item" }}>
-                            <b>Seesion:</b>
-                            <List
-                                sx={{
-                                    listStyleType: "disc",
-                                    listStylePosition: "inside",
-                                }}
+            ) : (
+                <>
+                    <Grid item xs>
+                        {!!visitDetails ? (
+                            <VisitDetailsExpenseBox
+                                title="Visit Details"
+                                id={visitDetails.Id}
+                                type={TravelType.VISIT}
                             >
-                                <ListItem sx={{ display: "list-item" }}>
-                                    <b>StartDate:</b>{" "}
-                                    {moment(visitDetails.SessionStartDate)
-                                        .utc()
-                                        .format("yyyy/MM/DD hh:mm:ss UTC")}
-                                </ListItem>
-                                <ListItem sx={{ display: "list-item" }}>
-                                    <b>EndDate:</b>{" "}
-                                    {moment(visitDetails.SessionEndDate)
-                                        .utc()
-                                        .format("yyyy/MM/DD hh:mm:ss UTC")}
-                                </ListItem>
-                            </List>
-                        </ListItem>
-                    </VisitDetailsExpenseBox>
-                </Grid>
-            )}
+                                <BaseVisitTravelItems details={visitDetails} />
 
-            {!!visitExpense && (
-                <Grid item xs>
-                    <VisitDetailsExpenseBox
-                        title="Visit Expense"
-                        id={visitExpense.Id}
-                        type={TravelType.EXPENSE}
-                    >
-                        <BaseVisitTravelItems details={visitExpense} />
-                    </VisitDetailsExpenseBox>
-                </Grid>
+                                <ListItem sx={{ display: "list-item" }}>
+                                    <b>Seesion:</b>
+                                    <List
+                                        sx={{
+                                            listStyleType: "disc",
+                                            listStylePosition: "inside",
+                                        }}
+                                    >
+                                        <ListItem sx={{ display: "list-item" }}>
+                                            <b>StartDate:</b>{" "}
+                                            {moment(
+                                                visitDetails.SessionStartDate,
+                                            )
+                                                .utc()
+                                                .format(
+                                                    "yyyy/MM/DD hh:mm:ss UTC",
+                                                )}
+                                        </ListItem>
+                                        <ListItem sx={{ display: "list-item" }}>
+                                            <b>EndDate:</b>{" "}
+                                            {moment(visitDetails.SessionEndDate)
+                                                .utc()
+                                                .format(
+                                                    "yyyy/MM/DD hh:mm:ss UTC",
+                                                )}
+                                        </ListItem>
+                                    </List>
+                                </ListItem>
+                            </VisitDetailsExpenseBox>
+                        ) : (
+                            <NotFoundBox>
+                                <Typography fontWeight="bold">
+                                    No VisitDetails was found
+                                </Typography>
+                            </NotFoundBox>
+                        )}
+                    </Grid>
+
+                    <Grid item xs>
+                        {!!visitExpense ? (
+                            <VisitDetailsExpenseBox
+                                title="Visit Expense"
+                                id={visitExpense.Id}
+                                type={TravelType.EXPENSE}
+                            >
+                                <BaseVisitTravelItems details={visitExpense} />
+                            </VisitDetailsExpenseBox>
+                        ) : (
+                            <NotFoundBox>
+                                <Typography fontWeight="bold">
+                                    No VisitExpense was found
+                                </Typography>
+                            </NotFoundBox>
+                        )}
+                    </Grid>
+                </>
             )}
         </Grid>
     );
